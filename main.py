@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 import sqlite3
 from pprint import pprint
 
@@ -18,6 +18,15 @@ app = Flask(__name__)
 @app.route('/')
 def ruta_raiz():
     return render_template('index.html', productos=productos)
+
+@app.route('/producto/<int:pid>')
+def ruta_producto(pid):
+    for producto in productos:
+        if pid == producto['id']:
+            return render_template('producto.html', producto=producto)
+    return redirect('/')
+
+
 #Programa principal
 if __name__=='__main__':
     app.run(host='0.0.0.0', debug=True)
